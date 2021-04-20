@@ -1,0 +1,44 @@
+{
+    "paths": [
+        {
+            "name": "/predictions",
+            "lambdaFunction": "predictionsLambda",
+            "privacy": {
+                "protected": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH"
+                ],
+                "unauth": [
+                    "/GET"
+                ]
+            },
+            "policyResourceName": "/predictions"
+        }
+    ],
+    "resourceName": "apiCreditRisk",
+    "apiName": "apiCreditRisk",
+    "functionArns": [
+        {
+            "lambdaFunction": "predictionsLambda"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 1,
+        "authRoleName": "amplify-authcra-devn-144628-authRole",
+        "unAuthRoleName": "amplify-authcra-devn-144628-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "predictionsLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
