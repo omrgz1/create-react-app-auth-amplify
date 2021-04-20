@@ -1,136 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
 
-    <style>
-    body {
-      font-family: "Helvetica Neue", sans-serif;
-    }
-    #enter-data-field {
-      width: calc(100% - 8px);
-      height: 300px;
-      font-family: "Consolas", monospace;
-    }
-    #update-data-from-file {
-      display: none;
-    }    
-    .file-upload {
-      height: 40px;
-      margin-bottom: 10px;
-    }
-    .file-upload-button, .file-upload-name {
-      display: inline-block;
-    }
-    .button {
-      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-      background: #45b29d;
-      color: #fff;
-      cursor: pointer;
-      padding: 10px;
-      display: inline-block;
-    }
-    .button:hover {
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    }
-    </style>
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>React App</title>
   </head>
   <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
 
-    <div class="file-upload">
-      <div class="file-upload-button">
-        <input type="file" name="File Upload" id="update-data-from-file" accept=".csv" />
-        <label class="button" id="fileLabel" for="update-data-from-file">
-          Upload CSV
-        </label>
-      </div>
-      <div class="file-upload-name" id="filename">No file chosen</div>
-    </div>
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
 
-    Or, paste your data from a spreadsheet:
-    <textarea id="enter-data-field"></textarea>
-    <div class="button" id="update-data-from-field">
-      Update data
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-      // Event handlers
-      $("#update-data-from-file").change(function(e){
-        changeDataFromUpload(e, function(data){
-          console.log(data);
-        });
-      });
-      $("#update-data-from-field").click(function(){
-        changeDataFromField(function(data){
-          console.log(data);
-        });
-      });
-      
-      // Parse pasted CSV
-      function changeDataFromField(cb){
-        var arr = [];
-        $('#enter-data-field').val().replace( /\n/g, "^^^xyz" ).split( "^^^xyz" ).forEach(function(d){
-          arr.push(d.replace( /\t/g, "^^^xyz" ).split( "^^^xyz" ))
-        });
-        cb(csvToJson(arr));
-      }
-
-      // Use the HTML5 File API to read the CSV
-      function changeDataFromUpload(evt, cb){
-        if (!browserSupportFileUpload()) {
-          console.error("The File APIs are not fully supported in this browser!");
-        } else {
-          var data = null;
-          var file = evt.target.files[0];
-          var fileName = file.name;
-          $("#filename").html(fileName);
-
-          if (file !== "") {
-            var reader = new FileReader();
-
-            reader.onload = function(event) {
-              var csvData = event.target.result;
-              var parsed = Papa.parse(csvData);
-              cb(csvToJson(parsed.data));
-            };
-            reader.onerror = function() {
-              console.error("Unable to read " + file.fileName);
-            };
-          }
-
-          reader.readAsText(file);
-          $("#update-data-from-file")[0].value = "";
-        }
-      }
-
-      // Method that checks that the browser supports the HTML5 File API
-      function browserSupportFileUpload() {
-        var isCompatible = false;
-        if (window.File && window.FileReader && window.FileList && window.Blob) {
-          isCompatible = true;
-        }
-        return isCompatible;
-      }
-
-      // Parse the CSV input into JSON
-      function csvToJson(data) {
-        var cols = data[0];
-        var out = [];
-        for (var i = 1; i < data.length; i++){
-          var obj = {};
-          var row = data[i];
-          cols.forEach(function(col, index){
-            obj[col] = row[index];
-          });
-          out.push(obj);
-        }
-        return out;
-      }
-    </script>
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
   </body>
 </html>
